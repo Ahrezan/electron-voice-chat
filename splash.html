@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Loading</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  .box {
+    width: 270px;
+    height: 270px;
+    min-width: 270px;
+    min-height: 270px;
+    max-width: 270px;
+    max-height: 270px;
+    overflow: visible; /* halo dışarı taşabilsin */
+    background: #13171e;
+    border-radius: 24px;
+    /* remove the old hard shadow */
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #9bbcff;
+    animation: fadeIn .3s ease;
+    position: relative;
+    overflow: hidden;
+    /* subtle surface highlight */
+    border: 1px solid #282c32;
+  }
+
+  /* big soft halo behind the card (smooth falloff) */
+  .box::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 720px;               /* geniş halo, pencerenin etrafına yayılır */
+    height: 520px;
+    transform: translate(-50%, -48%);
+
+    filter: blur(26px);
+    z-index: -2;
+    pointer-events: none;
+  }
+
+  /* small secondary shadow close to the card to give depth */
+  .box::after {
+    content: "";
+    position: absolute;
+    inset: auto;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    height: 30%;
+    margin: 0 auto;
+    width: 90%;
+    border-radius: 14px;
+
+    filter: blur(20px);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .box::before,
+  .box::after {
+    pointer-events: none;
+   }
+
+  /* container for stacked logo images */
+  .logo-wrap {
+    width: 100px;              /* aynı boyut */
+    height: 100px;
+    position: relative;
+    display: inline-block;
+  }
+
+  /* shadow / emboss layer: alt katman */
+  .logo-shadow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* blur + offset gives a soft black "kabartma" */
+    filter: blur(6px) drop-shadow(0 6px 8px rgba(0,0,0,0.7));
+    transform: translateY(4px) scale(1.03);
+    opacity: 0.85;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* top layer: çizgileri beyaz yapar */
+  .logo-top {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* orijinal siyah çizgiyi beyaza çevirir */
+    filter: invert(1) brightness(2) saturate(0);
+    transform: translateY(0) scale(1);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .loader {
+    margin-top: 18px;
+    width: 38px;
+    height: 38px;
+    border: 3px solid #2a3140;
+    border-top: 3px solid #6fa3ff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* küçük ekranlarda boyutu azalt */
+  @media (max-width: 360px) {
+    .box { width: 260px; height: 180px; }
+    .logo-wrap { width: 90px; height: 90px; }
+  }
+</style>
+</head>
+<body>
+  <div class="box" role="dialog" aria-label="Loading">
+    <div class="logo-wrap" aria-hidden="true">
+      <!-- alt: shadow / emboss layer -->
+      <img class="logo-shadow" src="assets/electron.png" alt="">
+      <!-- üst: asıl görüntü (beyaz olacak) -->
+      <img class="logo-top" src="assets/electron.png" alt="EVC logo">
+    </div>
+
+    <div class="loader" aria-hidden="true"></div>
+  </div>
+</body>
+</html>

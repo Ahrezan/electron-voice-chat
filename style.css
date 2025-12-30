@@ -1,0 +1,401 @@
+/* ========== RESET ========== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow-x: hidden;}
+
+/* ========== TEMEL BODY / LAYOUT ========== */
+body{
+  height: 100vh;
+  overflow: hidden;
+  background-color: #0b0f17;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #e6eef8;
+}
+
+/* Ana konteyner: Sol ve Sağ ayrımı */
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 12px;
+  padding: 12px;
+}
+
+/* Sol panelin kendi içindeki dikey ayrımı */
+.left {
+  display: grid;
+  grid-template-rows: 60px 1fr 75px;
+  gap: 8px;
+}
+
+/* SAĞ TARAF */
+.right {
+  display: grid;
+  grid-template-rows: 45px 1fr;
+  gap: 8px;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* --- FLEX overflow düzeltmeleri: flex konteyner içindeki hücrelerin shrink/height sorunlarını engellemek için --- */
+.left, .right, .rb, .chat-box {
+  min-height: 0; /* flex içinde taşmayı önler */
+}
+
+/* ========== PANEL-LIKE (ortak) ========== */
+.panel {
+  border: none;
+  background-color: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border-radius: 6px;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.20),
+    0 6px 14px rgba(0,0,0,0.28);
+  padding: 8px;
+}
+
+/* ========== ÜST KISIM (.lt) ========== */
+.lt {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 16px;
+  gap: 12px;
+}
+
+/* Logo görseli */
+.logo {
+  width: 32px;
+  height: 32px;
+  filter: invert(1) brightness(1.12) contrast(0.95);
+  opacity: 0.95;
+}
+
+/* Marka metin bloğu */
+.brand{
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  user-select: none;
+  text-align: left;
+}
+.brand__title { font-size: 15px; font-weight: 700; color: #f1f7ff; }
+.brand__subtitle { font-size: 12px; color: rgba(230,238,248,0.6); }
+
+/* ========== ORTA KISIM (.lm) ========== */
+.lm { max-width: 270px; padding: 12px; display: flex; flex-direction: column; }
+.lm-inner{ height: 100%; display: flex; flex-direction: column; gap: 10px; justify-content: flex-start; }
+
+/* Kontrol item */
+.control-item { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.control-label {
+  font-size: 10px; font-weight: 800; color: rgba(230, 238, 248, 0.7);
+  text-transform: uppercase; letter-spacing: 0.5px; text-align: left; padding-left: 4px;
+}
+
+/* ========== BUTONLAR ========== */
+.btn{
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background-color: rgba(255,255,255,0.06);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), background-color 0.18s ease, border-color 0.18s ease;
+}
+.btn img { width: 20px; height: 20px; display: block; opacity: 0.85; }
+.btn:hover{ background-color: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.18); }
+.btn:active{ transform: scale(0.96); }
+.btn-blue{ background: rgba(30,58,138,0.18); color: #fff; border: 1px solid rgba(255,255,255,0.06); }
+.btn-purple{ background: rgba(59,7,100,0.18); color: #fff; border: 1px solid rgba(255,255,255,0.06); }
+.btn-gray{ background: rgba(17,24,39,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.04); }
+.btn-sm { width: 34px; height: 34px; border-radius: 7px; flex-shrink: 0; }
+
+/* ALT BÖLÜM butonlar */
+.lb { display: flex; justify-content: space-evenly; align-items: center; padding: 6px; }
+
+/* ========== STATUS (sağ üst) ========== */
+.rt { height: 45px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; }
+.status-container { display: flex; align-items: center; gap: 12px; }
+.status-badge {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.04); padding: 6px 12px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* call-stats (left) */
+.call-stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.call-stats__icon { width: 24px; height: 24px; opacity: 0.9; }
+.call-stats__texts { display:flex; flex-direction:column; line-height:1; }
+.stat-line { font-size: 11px; color: rgba(230,238,248,0.85); font-weight:700; text-transform:uppercase; }
+
+/* bandwidth small line */
+#stat-bw { font-size: 9px; font-weight:600; color: rgba(200,215,255,0.85); }
+
+.status-dot { width: 8px; height: 8px; background-color: #10b981; border-radius: 50%; box-shadow: 0 0 8px rgba(16,185,129,0.6); animation: pulse 2s infinite; }
+.status-dot--yellow { background-color: #f59e0b; box-shadow: 0 0 8px rgba(245,158,11,0.45); animation: pulse 2s infinite; }
+.status-dot--blue   { background-color: #60a5fa; box-shadow: 0 0 8px rgba(96,165,250,0.45); animation: none; }
+.status-dot--error { background-color: #ef4444; /* kırmızı */ box-shadow: 0 0 10px rgba(239,68,68,0.6); animation: none; /* pulse durdur */ }
+.status-text { font-size: 11px; font-weight: 700; color: rgba(230,238,248,0.8); text-transform: uppercase; letter-spacing: 0.5px; }
+@keyframes pulse { 0%{opacity:1}50%{opacity:0.5}100%{opacity:1} }
+
+/* ========== İNPUT / KUTU GRUPLARI (ayrıştırıldı) ========== */
+
+/* wrapper: input + absolute buton (input içinde görünüyor) */
+.input-with-inside-btn {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+/* input'un kendisi — sağ tarafta buton için boşluk bırak */
+.peer-input.inside {
+  width: 100%;
+  height: 44px;
+  padding: 8px 44px 8px 10px; /* sağda buton için 44px boşluk */
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background-color: rgba(255,255,255,0.02);
+  color: #e6eef8;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* inside buton: input'un üstünde, sağda ortalanmış */
+.input-with-inside-btn .inside-btn {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  right: 5px;
+
+}
+
+/* buton içindeki img biraz küçült */
+.input-with-inside-btn .inside-btn img {
+  width: 20px;
+  height: 20px;
+  display: block;
+  opacity: 0.9;
+}
+
+/* focus durumunda input + buton uyumu */
+.peer-input.inside:focus {
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
+  border-color: rgba(59,130,246,0.6);
+}
+
+/* genel input-group (istenirse diğer yerlerde kullanılabilir) */
+.input-group {
+  display:flex; align-items:center; gap:8px; height:44px;
+  background-color: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px; padding:4px; width:100%; overflow:hidden;
+}
+
+/* ID özel grubu (tek satır davranışı burada garanti) */
+.id-input-group {
+  display:flex; align-items:center; gap:8px; height:44px;
+  background-color: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px; padding:4px; width:100%; overflow:hidden;
+}
+
+/* --- » PEER INPUT WRAPPER: input + altında duran butonlar (DIŞ) */
+.peer-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px; /* input ile butonlar arası boşluk */
+}
+
+/* peer input (düzenlenebilir) */
+.peer-input{
+  width: 100%;
+  height: 44px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background-color: rgba(255,255,255,0.02);
+  color: #e6eef8;
+  outline: none;
+  font-size: 13px;
+}
+.peer-input::placeholder { color: rgba(230,238,248,0.45); }
+
+/* peer-actions: input'un dışında, altında duran buton grubu */
+.peer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* sola hizalanmış: */
+  justify-content: flex-start;
+  /* küçük üst boşluk için padding/margin değil gap kullandık */
+}
+
+/* tek satırlık metin için reusable sınıf */
+.single-line {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;            /* flex içinde taşmayı engeller */
+  padding-left: 10px;
+  font-size: 13px;
+  color: #93c5fd;
+  background: transparent;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========== SAĞ ALT ========== */
+/* === RB PANEL: dış kabın büyümesini engelle, içeriği flex ile kontrol et === */
+.rb {
+  /* dış kabın kendisi grid hücresinde yer alır;
+     içeriğin scroll yapması için rb'i flex konteyner yapıyoruz */
+  display: flex;
+  flex-direction: column;
+  /* bırak 100% yüksekliği alsın; overflow dışarı çıkmasın */
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;   /* dış kabta scroll değil, içte olacak */
+  padding: 12px;      /* isteğe göre ayarla */
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px){
+  body { overflow: auto; }
+  .container { grid-template-columns: 1fr; height: auto; padding: 10px; }
+  .left { grid-template-rows: auto; }
+  .lb { flex-direction: row; justify-content: center; gap: 8px; }
+  .logo{ width: 34px; height: 34px; }
+  .brand__title{ font-size: 13px; }
+  .brand__subtitle{ font-size: 11px; }
+}
+
+/* === CHAT: responsive, scrollable ve inside-send buton === */
+
+/* chat-box: rb içindeki ana flex container */
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;    /* rb içinde kalan tüm alanı kapla */
+  min-height: 0;     /* çok önemli: içteki .chat-messages overflow'unu etkinleştirir */
+  gap: 12px;
+  overflow: hidden;
+}
+
+/* chat-messages: burası gerçekten scrollable olmalı */
+.chat-messages {
+  flex: 1 1 auto;
+  min-height: 0;   /* ***çok önemli***: flex layout içinde taşmayı önler */
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scrollbar-gutter: stable;
+}
+
+
+/* opsiyonel görsel scrollbar (webkit) */
+.chat-messages::-webkit-scrollbar { width: 10px; }
+.chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 8px; }
+
+/* mesaj balonları (hafif) */
+.msg { max-width: 75%; padding: 8px 10px; border-radius: 8px; font-size: 13px; line-height: 1.2; }
+.msg-left { align-self: flex-start; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04); color: #e6eef8; }
+.msg-right { align-self: flex-end; background: rgba(59,130,246,0.14); border: 1px solid rgba(59,130,246,0.25); color: #eaf4ff; }
+
+/* Chat message timestamp styling */
+.msg-content { display: flex; flex-direction: column; gap: 4px; }
+.msg-text { white-space: pre-wrap; word-break: break-word; }
+.msg-time {
+  font-size: 11px;
+  color: rgba(230,238,248,0.65);
+  text-align: right;
+  margin-top: 4px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+
+/* chat input row: input'un içine buton koyma pattern'i */
+.chat-input-row { display: flex; align-items: center; padding-top: 6px; }
+
+/* wrapper: input + absolute buton */
+.chat-input-wrapper { position: relative; width: 100%; }
+
+/* chat input: sağda buton için padding bırak */
+.chat-input {
+  width: 100%;
+  height: 42px;
+  padding: 8px 56px 8px 12px; /* sağda butona göre geniş boşluk */
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background-color: rgba(255,255,255,0.02);
+  color: #e6eef8;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Chat Başlangıçta Devre Dışı */
+.chat-disabled {
+  opacity: 0.4;
+  pointer-events: none; /* Tıklamayı engeller */
+  filter: grayscale(100%);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+  position: relative;
+}
+
+/* Chat kutusunun üzerine "Call to Chat" gibi bir yazı eklemek isterseniz (Opsiyonel) */
+.chat-disabled::after {
+  content: "Call to start chat";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255,255,255,0.5);
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* Gönder butonu: input'un içinde, sağta; üst/alt/sağ eşit boşluk */
+.send-btn {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  bottom: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+/* ikon küçültme */
+.send-btn img { width: 18px; height: 18px; display: block; }
+
+/* küçük ekran / dar yükseklik durumları */
+@media (max-height: 420px) {
+  .chat-input { height: 42px; padding-right: 48px; }
+  .send-btn { top: 4px; bottom: 4px; }
+}
+
+/* responsive: dar ekranlarda padding azalt */
+@media (max-width: 420px) {
+  .chat-input { padding-right: 48px; font-size: 13px; }
+  .send-btn img { width: 16px; height: 16px; }
+}

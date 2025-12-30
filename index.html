@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Electron Voice Chat</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <script src="js/copyPaste.js"></script>
+  <style>
+  html, body {
+    background: #13171e;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="left">
+    <!-- ÜST BÖLÜM: logo + marka -->
+    <div class="lt panel">
+      <img class="logo" src="assets/logo.svg" alt="EVC logo" />
+      <div class="brand">
+        <div class="brand__title">Electron Voice Chat</div>
+        <div class="brand__subtitle">Simple P2P Voice Chat App</div>
+      </div>
+    </div>
+    <!-- ORTA BÖLÜM: kontrol öğeleri (ID, peer input vb.) -->
+    <div class="lm panel">
+      <div class="lm-inner">
+        <!-- KULLANICI ID BLOĞU (ayrılmış, tek satır gösterim) -->
+        <div class="control-item">
+          <label class="control-label">User ID</label>
+
+          <div class="id-input-group">
+              <span id="peer-id" class="id-value single-line" title=""> <!-- PeerJS kodları yer alacak olan o item-->
+            </span>
+
+            <button id="copy-id" class="btn btn-gray btn-sm" type="button" title="Copy">
+              <img src="assets/clipboard.svg" alt="Copy" />
+            </button>
+          </div>
+        </div>
+        <!-- PEER GİRİŞİ BLOĞU: input içinde görünen 'Yapıştır' butonu -->
+        <div class="control-item">
+          <label class="control-label" aria-hidden="true"></label>
+
+          <div class="input-with-inside-btn">
+            <input id="peer-input" class="peer-input inside" type="text" placeholder="Enter or paste the PeerJS ID" /> <!-- Buraya PeerJS ID'si girilecek -->
+            <button id="paste-id" class="btn btn-gray btn-sm inside-btn" type="button" title="Paste" aria-label="Paste">
+              <img src="assets/paste.svg" alt="">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ALT BÖLÜM: butonlar -->
+    <div class="lb panel">
+      <button id="volumeBtn" class="btn btn-blue" title="Audio On/Off"> <!-- Kullanıcı ses aç/kapat butonu -->
+        <img src="assets/volume-on.svg" alt="Audio On/Off"/>
+      </button>
+
+      <button id="micBtn" class="btn btn-purple" title="Mute/Unmute Microphone"> <!-- Kullanıcı mikrofonu aç/kapat butonu -->
+        <img src="assets/mic-on.svg" alt="Mute/Unmute Microphone"/>
+      </button>
+
+      <button id="callBtn" class="btn btn-blue" title="Start/Stop Call"> <!-- Girilen PeerJS ID'sini WebRTC ile sesli sohbeti başlatacak olan o buton -->
+        <img src="assets/call-waiting.svg" alt="Start/Stop Call"/>
+      </button>
+
+      <button id="settingsBtn" class="btn btn-gray" title="Settings (Upcoming Update)">
+        <img src="assets/gear.svg" alt="Settings (Upcoming Update)"/>
+      </button>
+    </div>
+  </div>
+  <!-- SAĞ PANEL -->
+  <div class="right">
+    <div class="rt panel">
+      <!-- LEFT: realtime call stats (icon + vertical texts) -->
+      <div id="call-stats" class="call-stats" aria-hidden="true">
+        <img src="assets/ping.svg" alt="Ping" class="call-stats__icon" />
+        <div class="call-stats__texts">
+          <div id="stat-ping" class="stat-line">MS: —</div>
+          <div id="stat-bw" class="stat-line">
+            <span id="stat-down">↓ — KB/s</span>
+            <span id="stat-up" style="margin-left:8px;">↑ — KB/s</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: status badge -->
+      <div class="status-container">
+        <div class="status-badge">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span class="status-text">READY TO CONNECT</span>
+        </div>
+      </div>
+    </div>
+    <div class="rb panel">
+      <div class="chat-box chat-disabled">
+        <!-- mesajların gösterildiği alan (PeerJS'den gelenleri buraya ekleyeceksin) -->
+        <div class="chat-messages" id="chat-messages" aria-live="polite" role="log">
+          <!-- Örnek: <div class="msg msg-left">Hoşgeldin</div> -->
+        </div>
+
+        <!-- gönderme alanı (input içinde send butonu) -->
+        <div class="chat-input-row" aria-label="Mesaj gönderme alanı">
+          <div class="chat-input-wrapper input-with-inside-btn">
+            <input id="chat-input" class="chat-input" type="text" placeholder="Send message..." aria-label="Send message..." />
+            <button id="chat-send" class="btn btn-gray btn-sm send-btn" type="button" aria-label="Send">
+              <img src="assets/send.svg" alt="Send">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
